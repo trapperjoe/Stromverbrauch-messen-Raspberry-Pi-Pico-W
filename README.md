@@ -26,6 +26,6 @@ Pm = 3600000 / Tp
 
 wobei Pm die momentane Leistung in Watt ist und Tp die Periodendauer in Millisekunden zwischen zwei benachbarten Impulsen.
 
-Bei der hier vorgestellten Lösung lösen die Lichtimpulse jeweils einen Interrupt aus. 
-Die Berechnung der Momentanleistung und die Anzeige bzw. Weiterleitung an den MQTT-Broker geschieht dann im Hauptprogramm. 
+Bei der hier vorgestellten Lösung erzeugt jeder Lichtimpuls einen Interrupt auf dem Rapsberry Pi Pico W. 
+Die Berechnung der Momentanleistung und die Anzeige der Werte bzw. Weiterleitung an den MQTT-Broker geschieht dann im Hauptprogramm. 
 
