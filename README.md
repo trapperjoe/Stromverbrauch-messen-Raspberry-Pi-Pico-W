@@ -1,9 +1,9 @@
 Vor kurzem stand ich vor folgender Problemstellung: 
 Mein Stromverbrauch ist (gefühlt) zu hoch und ich wollte der Sache auf den Grund gehen und "Stromfresser" finden und eliminieren. 
 
-Dazu wollte ich meinen atuellen Stromverbrauch einfach ablesen aber mein Stromverbrauchszähler im Keller ist schon älter und sendet nur Lichtimpulse und zwar umso 
-schneller, je mehr Strom fließt.  Leider ist mein Stromverbrauchszähler nicht "smart", so dass es keine Möglichkeit gibt, dass er weitere Messdaten liefern 
-oder anzeigen kann, weder optisch noch elektrisch. Man kann lediglich die Zählerdaten ablesen, nicht aber den momentanen "Verbrauch". 
+Dazu wollte ich meinen aktuellen Stromverbrauch einfach nur ablesen aber mein Stromverbrauchszähler im Keller ist schon älter und sendet nur Lichtimpulse und 
+zwar umso schneller, je mehr Strom fließt.  Leider ist mein Stromverbrauchszähler nicht "smart", so dass es keine Möglichkeit gibt, dass er weitere Messdaten 
+liefern oder anzeigen kann, weder optisch noch elektrisch. Man kann lediglich die Zählerdaten ablesen, nicht aber den momentanen "Verbrauch". 
 
 Was tun ?
 Natürlich kann man mit  einer Stoppuhr daneben stehen und die Zeitdauer zwischen zwei Impulsen messen. Diese dann aufschreiben und später ausrechnen, welcher momentanen  
@@ -27,5 +27,6 @@ Pm = 3600000 / Tp
 wobei Pm die momentane Leistung in Watt ist und Tp die Periodendauer in Millisekunden zwischen zwei benachbarten Impulsen.
 
 Bei der hier vorgestellten Lösung erzeugt jeder Lichtimpuls einen Interrupt auf dem Rapsberry Pi Pico W. 
+Die Interruptroutine ermittelt die Dauer zwischen zwei benachbarten Impulsen und speichert diese in einer globalen Variablen.  
 Die Berechnung der Momentanleistung und die Anzeige der Werte bzw. Weiterleitung an den MQTT-Broker geschieht dann im Hauptprogramm. 
 
