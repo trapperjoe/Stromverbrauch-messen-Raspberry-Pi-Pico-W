@@ -8,7 +8,7 @@
 # Diese Dauer (periode) ist ein Maß für den momentanen Verbrauch.
 # Je größer die Dauer, um so kleiner ist der Verbrauch. 
 # Der momentane Verbrauch (mverbrauch) wird dann am Display angezeigt.
-# Die interne LED blinkt kurz bei jedem Aufruf der Interruptroutine.
+# Die interne LED zeigt an, wenn das Signal auf HIGH liegt. 
 #
 #
 # Bibliotheken laden
@@ -35,7 +35,7 @@ def disp_lcd(z1, z2):
         lcd.putstr(zeile_2)
         utime.sleep(0.2)
     except:
-        print("Z021")
+        print("Z038")
     return
 
 
@@ -75,12 +75,11 @@ Signal = machine.Pin(15,machine.Pin.IN,machine.Pin.PULL_DOWN)
 # Definition des Interrupthandlers für den Statuswechsel des Signals
 Signal.irq(trigger=machine.Pin.IRQ_RISING | machine.Pin.IRQ_FALLING, handler=Signal_INT)
 
-
+# Start des Hauptprogramms
 # Setze die Status Variable für das Signal
 Signal_Status = Signal.value()
 print("Signal Status: ", Signal_Status)
 
-# Start des Hauptprogramms
 # Initialisierung I2C
 i2c = I2C(0, sda=Pin(20), scl=Pin(21), freq=100000)
 
@@ -106,7 +105,7 @@ while True:
             rled.value(0); yled.value(0); gled.value(0); utime.sleep(0.5)
  
         except:
-            print("Z106")
+            print("Z108")
             ####reset()
            
     else:
