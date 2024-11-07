@@ -8,17 +8,22 @@
 # Diese Dauer (periode) ist ein Maß für den momentanen Verbrauch.
 # Je größer die Dauer, um so kleiner ist der Verbrauch. 
 # Der momentane Verbrauch (mverbrauch) wird dann am Display angezeigt.
-# Die interne LED zeigt an, wenn das Signal auf HIGH liegt. 
-#
+# Während der HIGH Phase des Impulses wird die interne LED eingeschaltet,
+# ansonsten bleibt sie ausgeschaltet.
+# Wenn eine steigende Flanke erkannt wurde, dann wird die globale Variable tck1
+# mit einem Zeitstpempel gesetzt. Eine fallende Flanke setzt dann die Variable tck2
+# mit einem weiteren Zeitstempel. 
+# Die Differenz der beiden Zeitstempel (tck2 - tck1) ist dann die Impulsdauer. 
+# 
 #
 # Bibliotheken laden
-from machine import I2C, Pin
+from machine import I2C, Pin, reset
 from machine_i2c_lcd import I2cLcd
 import utime
 
-# Status-LED onboard
+# Status-LED onboard (für Raspberry Pico W)
 led_onboard = machine.Pin('LED', machine.Pin.OUT, value=0)
-#
+
 # Definition of LEDs
 rled 	= machine.Pin(10, machine.Pin.OUT)
 yled 	= machine.Pin(11, machine.Pin.OUT)
@@ -35,7 +40,7 @@ def disp_lcd(z1, z2):
         lcd.putstr(zeile_2)
         utime.sleep(0.2)
     except:
-        print("Z038")
+        print("Z043")
     return
 
 
@@ -75,11 +80,16 @@ Signal = machine.Pin(15,machine.Pin.IN,machine.Pin.PULL_DOWN)
 # Definition des Interrupthandlers für den Statuswechsel des Signals
 Signal.irq(trigger=machine.Pin.IRQ_RISING | machine.Pin.IRQ_FALLING, handler=Signal_INT)
 
+
+
 # Start des Hauptprogramms
 # Setze die Status Variable für das Signal
-Signal_Status = Signal.value()
-print("Signal Status: ", Signal_Status)
+Signal_Status = Signal.value() 			# Signal_Status sollte anfänglich auf LOW gesetzt sein
+                                        # wegen dem internen PULLDOWN Befehl auf GPIO15 
+print("Signal Status: ", Signal_Status)	# Gib zur Überprüfung den initialen Zustand von Signal_Status aus
 
+tck1 = 0; tck2 = 0; tck2_v = -1; periode = -1 # Setze die globalen Variablen tck2_v und periode auf ungültige Werte, 
+                                              # da diese erst später im Signal Interrupt Handler gesetzt werden
 # Initialisierung I2C
 i2c = I2C(0, sda=Pin(20), scl=Pin(21), freq=100000)
 
@@ -89,9 +99,11 @@ lcd = I2cLcd(i2c, 0x27, 2, 16)
 tck1 = 0; tck2 = 0; tck2_v = -1; periode = -1
 print("Start...... !")
 
-counter = 0
+counter = 0								# Setze den Schleifenzähler initial auf 0
 while True:
     counter += 1
+    if counter > 10000:
+        reset()
     rled.value(1); yled.value(0); utime.sleep(2)
     rled.value(0); yled.value(1); utime.sleep(2)    
    
@@ -105,15 +117,14 @@ while True:
             rled.value(0); yled.value(0); gled.value(0); utime.sleep(0.5)
  
         except:
-            print("Z108")
-            ####reset()
+            print("Z122")
+            reset()
            
     else:
         print("Waiting... \r", end = '')
     
 
 # Hier können weitere Aktivitäten erfolgen !!
-
+#    
+#
 #######################################################################################
-
-
