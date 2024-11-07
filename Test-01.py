@@ -1,5 +1,5 @@
 # Dieses Programm erwartet einen Impuls auf dem GPIO15 
-# Es  reagiert dabei auf jeden Statuswechsel, d.h. sowohl auf eine steigende Flanke, alsauch auf eine fallende Flanke des Impulses 
+# Es reagiert dabei auf jeden Statuswechsel, d.h. sowohl auf eine steigende Flanke, alsauch auf eine fallende Flanke des Impulses 
 # Initial wird der Signalpegel als "LOW" angenommen. Eine steigende Flanke wird dann als ein Wechsel von LOW zu HIGH definiert. 
 # Ebenso ist dann definitionsgemäß eine fallende Flanke ein Wechsel von HIGH auf LOW. 
 # 
@@ -24,8 +24,8 @@ def Signal_INT(pin):          					# Signal Interrupt Handler
  
     Signal.irq(handler=None)  					# Interrupt Handler abschalten während der Ausführung 
     
-    if (Signal.value() == 1) and (Signal_Status == 0):  	# Signal ist aktiv (AN) und Signal_Status ist AUS
-	# Es wurde eine steigende Flanke erkannt !
+    if (Signal.value() == 1) and (Signal_Status == 0):  	# Signal ist jetzt aktiv (HIGH) war aber vorher auf LOW
+								# Es wurde eine steigende Flanke erkannt !
 
         Signal_Status = 1     					# Setze Signal_Status auf HIGH
         led_onboard.value(1)    				# Schalte LED_onboard ein
@@ -33,8 +33,8 @@ def Signal_INT(pin):          					# Signal Interrupt Handler
         print()
         print("High tck1 = ", tck1, ' ms')			# Gebe den Wert von tck1 aus
             
-    elif (Signal.value() == 0) and (Signal_Status == 1): 	# Signal ist nicht aktiv (AUS) und Signal_Status ist EIN
-	# es wurde eine fallende Flanke erkant !
+    elif (Signal.value() == 0) and (Signal_Status == 1): 	# Signal ist jetzt nicht aktiv (LOW) war aber vorher auf HIGH
+								# Es wurde eine fallende Flanke erkant !
 
         Signal_Status = 0     					# Setze Signal_Status auf LOW
         led_onboard.value(0)    				# Schalte LED_onboard aus
