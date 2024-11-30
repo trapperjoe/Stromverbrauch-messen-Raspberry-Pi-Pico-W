@@ -1,0 +1,47 @@
+Der Code implementiert ein Programm für einen Mikrocontroller (z. B. Raspberry Pi Pico W) in MicroPython. 
+Es analysiert Signaleingänge, berechnet zeitliche Intervalle zwischen Signaländerungen und leitet daraus den momentanen Verbrauch ab. 
+Eine Anzeige und LEDs werden für die Visualisierung genutzt.
+
+Ablauf und Funktionen
+GPIO15-Signalüberwachung:
+
+GPIO15 erkennt steigende (HIGH) und fallende (LOW) Flanken.
+Ein Interrupt (Signal_INT) wird bei jedem Signalwechsel ausgelöst.
+
+Zeitmessung:
+Bei steigender Flanke: Speichert tck1 (Zeitstempel).
+Bei fallender Flanke: Speichert tck2 (Zeitstempel) und berechnet die Dauer (periode) zwischen den letzten beiden fallenden Flanken.
+
+Leistungsberechnung:
+Die Leistung PPP wird aus der Periode berechnet: P=3600000/periode [Watt] 
+
+Anzeige und LEDs:
+Ergebnis wird auf einem LCD (I2C) dargestellt.
+LEDs signalisieren Status:
+Rot/Gelb blinken für Aktivitäten.
+Grün zeigt, dass eine Berechnung erfolgt ist.
+
+Hauptprogramm:
+Endlosschleife zählt counter.
+Signaländerungen werden erfasst, Zeitintervalle berechnet und aufbereitet.
+
+Reset:
+Nach 10.000 Iterationen wird der Mikrocontroller zurückgesetzt.
+Wichtige Funktionen
+Interrupt-Routine: Signal_INT()
+Steuert die Reaktion auf Signaländerungen:
+Steigende Flanke: Speichert Startzeit (tck1) und schaltet die LED ein.
+Fallende Flanke: Berechnet die Zeitspanne zwischen zwei fallenden Flanken und speichert sie in periode.
+Anzeige: disp_lcd(z1, z2)
+Zeigt Zähler und berechnete Leistung auf dem LCD an.
+
+Hauptschleife:
+Berechnet und zeigt die Leistung in der Schleife, wenn periode gültig ist:
+
+python
+if (counter > 1) and (periode > 0):
+    mverbrauch = int(3600000 / periode)
+    disp_lcd(str(counter), str(mverbrauch))
+Zusammenfassung
+Der Code dient zur Überwachung eines Signals, Berechnung des momentanen Verbrauchs und Anzeige der Ergebnisse. 
+LEDs und LCD unterstützen die Visualisierung der laufenden Prozesse.
