@@ -1,0 +1,9 @@
+// Get ADC_Value and convert to Voltage
+var v_ADC4 = msg.payload;
+
+// Convert to Voltsage
+var Voltage = (v_ADC4) * (3.3/65535);
+
+// Return the modified message
+msg.payload = Voltage;
+return msg;
