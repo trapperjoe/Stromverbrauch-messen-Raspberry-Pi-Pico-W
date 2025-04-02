@@ -1,11 +1,16 @@
 Es gibt noch viele alte Stromverbrauchszähler in Deutschland, die zwar eine Leuchtdiode haben, die regelmäßig blinkt, wenn Strom fließt aber die trotzdem nicht "smart" sind,   
 denn sie können nicht die momentane Leistung anzeigen, die im Stromnetz verbraucht wird. 
+
 Man kann zwar z.B. mit einer Stoppuhr den Abstand zwischen zwei Impulsen messen aber das ist sehr zeitaufwändig und nicht sehr genau. 
 Eine bessere Lösung ist dafür eine kleine elektrische Schaltung zu basteln,  z.B.  mit einem Raspberry Pi  Pico W.   
-Man kann einen einfachen Fotowiderstand (z.B. KY-018) an den Raspberry Pi Pico W anschließen und dieser kann dann die momentane Leistung ausrechnen, 
+
+Mit einem einfachen Fotowiderstand (z.B. KY-018) an einem Raspberry Pi Pico W angeschlossen, kann dieser dieser dann die momentane Leistung ausrechnen, 
 denn diese ist indirekt proportional zur Dauer zwischen zwei aufeinander folgenden Lichtimpulsen. 
+
 Die hochgeladenen Skripte in Micropython zeigen, wie das funktioniert. 
-Wenn man nicht ständig am PC sitzen will, um die Leistung zu beobachten dann kann man auch ein  Display anschließen oder auch die Daten an einen geeigneten MQTT-Broker schicken. 
-Dazu braucht man aber ein lokales Netzwerk und eine geeignete Hardware für den MQTT-Broker (z.B. ein Raspberry Pi 4 mit dem Betriebssystem für Homeassistant). 
+
+Wenn man nicht ständig am PC sitzen will, um die Leistung zu beobachten dann kann man auch ein  Display anschließen oder auch die Daten 
+an einen geeigneten MQTT-Broker schicken. Dazu braucht man aber ein lokales Netzwerk und eine geeignete Hardware für den MQTT-Broker 
+(z.B. ein Raspberry Pi 4 mit einem geeigneten Programm z.B. NodeRed). 
 
 
